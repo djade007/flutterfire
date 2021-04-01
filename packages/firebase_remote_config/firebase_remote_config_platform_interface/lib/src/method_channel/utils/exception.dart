@@ -1,5 +1,3 @@
-
-
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/services.dart';
 
@@ -25,8 +23,8 @@ Exception convertPlatformException(Object exception, [StackTrace? stackTrace]) {
 FirebaseException platformExceptionToFirebaseException(
     PlatformException platformException,
     [StackTrace? stackTrace]) {
-  Map<String, String>? details = platformException.details != null
-      ? Map<String, dynamic>.from(platformException.details) as Map<String, String>?
+  final details = platformException.details != null
+      ? Map<String, dynamic>.from(platformException.details)
       : null;
 
   String code = 'unknown';

@@ -234,20 +234,24 @@ class MethodChannelFirebaseRemoteConfig extends FirebaseRemoteConfigPlatform {
   }
 
   Future<void> _updateConfigParameters() async {
-    Map<dynamic, dynamic> parameters = await (channel
-        .invokeMapMethod<dynamic, dynamic>(
-            'RemoteConfig#getAll', <String, dynamic>{
+    final parameters = await channel.invokeMapMethod<dynamic, dynamic>(
+        'RemoteConfig#getAll', <String, dynamic>{
       'appName': app!.name,
-    }) as FutureOr<Map<dynamic, dynamic>>);
+    });
+
+    if (parameters == null) return;
     _activeParameters = _parseParameters(parameters);
   }
 
   Future<void> _updateConfigProperties() async {
-    Map<dynamic, dynamic> properties = await (channel
+    Map<dynamic, dynamic>? properties = await channel
         .invokeMapMethod<dynamic, dynamic>(
             'RemoteConfig#getProperties', <String, dynamic>{
       'appName': app!.name,
-    }) as FutureOr<Map<dynamic, dynamic>>);
+    });
+
+    if (properties == null) return;
+
     final fetchTimeout = Duration(seconds: properties['fetchTimeout']);
     final minimumFetchInterval =
         Duration(seconds: properties['minimumFetchInterval']);
